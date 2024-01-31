@@ -5,6 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: 4teamwork/weasyprint:latest
+    image: ghcr.io/enertech-ch/weasyprint-docker:latest
     ports:
       - 3000:8080
