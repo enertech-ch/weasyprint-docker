@@ -1,4 +1,4 @@
-name: Build Image and deploy it to GHCR
+name: Build Image and push it to GHCR
 
 on:
   push:
@@ -10,19 +10,18 @@ on:
 
 jobs:
   build-push:
+    name: Build & Push
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Docker meta
+      - name: Get Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          # list of Docker images to use as base name for tags
           images: |
             ghcr.io/${{ github.repository }}
-          # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -36,7 +35,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and Push the Image
         uses: docker/build-push-action@v5
         with:
           context: .
